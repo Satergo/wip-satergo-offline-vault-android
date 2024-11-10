@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools">
+
+	<!-- Bluetooth -->
+	<uses-permission
+		android:name="android.permission.BLUETOOTH_CONNECT"
+		android:usesPermissionFlags="neverForLocation"
+		tools:targetApi="31" />
+	<uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+
+	<!-- Legacy Bluetooth permissions (before Android 12) -->
+	<uses-permission
+		android:name="android.permission.BLUETOOTH"
+		android:maxSdkVersion="30" />
+	<uses-permission
+		android:name="android.permission.BLUETOOTH_ADMIN"
+		android:maxSdkVersion="30" />
+
+	<!-- Unused at the moment
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+	-->
+
+	<!-- Remove unnecessary permissions brought in by the Bluetooth library -->
+	<uses-permission android:name="android.permission.BLUETOOTH_SCAN"
+		tools:node="remove"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"
+		tools:node="remove"/>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+		tools:node="remove"/>
+
+	<uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
+
+	<application
+		android:allowBackup="false"
+		android:dataExtractionRules="@xml/data_extraction_rules"
+		android:fullBackupContent="@xml/backup_rules"
+		android:icon="@mipmap/ic_launcher"
+		android:label="@string/appName"
+		android:roundIcon="@mipmap/ic_launcher_round"
+		android:supportsRtl="true"
+		android:theme="@style/Theme.SatergoOfflineVault"
+		tools:targetApi="31">
+		<activity
+			android:name=".SignActivity"
+			android:exported="false"
+			android:configChanges="keyboardHidden|orientation|screenSize" />
+		<activity
+			android:name=".MainActivity"
+			android:exported="true"
+			android:configChanges="keyboardHidden|orientation|screenSize">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+	</application>
+
+</manifest>

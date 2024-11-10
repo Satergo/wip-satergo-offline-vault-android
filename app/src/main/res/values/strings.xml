@@ -1,0 +1,43 @@
+<resources>
+	<string name="appName">Satergo Offline Vault</string>
+	<string name="title_connection">Connection service</string>
+	<string name="title_wallets">Wallets</string>
+	<string name="settings">Settings</string>
+	<string name="connection">Connection</string>
+	<string name="wallet">Wallet</string>
+
+	<string name="error">Error</string>
+	<string name="deviceNoBluetooth">This device has no Bluetooth</string>
+	<string name="createNewWallet">Create new wallet</string>
+	<string name="wallets">Wallets</string>
+	<string name="signRequestReceived">A request to sign a transaction was received.</string>
+	<string name="accept">Accept</string>
+	<string name="deny">Deny</string>
+	<string name="start">Start</string>
+	<string name="restoreUsingSeedPhrase">Restore using a seed phrase</string>
+	<string name="running_">Running.</string>
+	<string name="walletName">Wallet name</string>
+	<string name="seedPhrase">Seed phrase</string>
+	<string name="encryptionPassword">Encryption password</string>
+	<string name="restoreWallet">Restore wallet</string>
+	<string name="restore">Restore</string>
+	<string name="cancel">Cancel</string>
+	<string name="create">Create</string>
+	<string name="createWallet">Create wallet</string>
+	<string name="needToCreateAWalletFirst">You need to create a wallet first</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+	<string name="sendPublicKeyPrompt">Send public key? (used to generate addresses)</string>
+	<string name="bleUnsupported">Your device does not support Bluetooth Low Energy (BLE)</string>
+	<string name="walletNameRequired">Wallet name required</string>
+	<string name="encryptionPasswordRequired">Encryption password required</string>
+	<string name="seedPhraseRequired">Seed phrase required.</string>
+	<string name="delete">Delete</string>
+	<string name="viewSeed">View seed</string>
+	<string name="walletWillBeDeleted">The wallet will be deleted. This cannot be undone.</string>
+	<string name="areYouSure">Are you sure?</string>
+	<string name="incorrectPassword">Incorrect password.</string>
+	<string name="passwordNeeded">Password needed</string>
+	<string name="notRunning">Not running</string>
+	<string name="acceptThenTryAgain">Accept, then try again.</string>
+</resources>

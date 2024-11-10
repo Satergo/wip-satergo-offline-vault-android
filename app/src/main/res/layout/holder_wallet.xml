@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:padding="4dp"
+	android:background="@drawable/holder_wallet_drawable">
+
+	<TextView
+		android:id="@+id/name"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		/>
+
+	<Button
+		android:id="@+id/viewSeed"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/name"
+		android:text="@string/viewSeed"/>
+
+	<Button
+		android:id="@+id/delete"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/name"
+		android:layout_marginStart="4dp"
+		android:layout_toEndOf="@id/viewSeed"
+		android:text="@string/delete"/>
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toEndOf="@id/viewSeed"
+		android:text="This wallet is selected"/>
+
+</RelativeLayout>

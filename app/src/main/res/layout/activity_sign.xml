@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".SignActivity"
+	android:orientation="vertical">
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center_horizontal"
+		android:textSize="20sp"
+		android:text="@string/signRequestReceived" />
+
+	<Space
+		android:layout_width="match_parent"
+		android:layout_height="2dp"/>
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="16sp"
+		android:text="Total amounts sent from the wallet:" />
+
+	<TextView
+		android:id="@+id/coinsSent"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+
+	<TextView
+		android:id="@+id/tokensSent"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="16sp"
+		android:text="Sent to:" />
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="200dp">
+
+		<TextView
+			android:id="@+id/outputInfo"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+	</ScrollView>
+
+	<Space
+		android:layout_width="match_parent"
+		android:minHeight="10dp"
+		android:layout_height="0px"
+		android:layout_weight="1" />
+
+	<EditText
+		android:id="@+id/password"
+		android:inputType="textPassword"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:hint="Password (if you want to accept)" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="end">
+		<Button
+			android:id="@+id/accept"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/accept"/>
+		<Button
+			android:id="@+id/deny"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/deny"/>
+	</LinearLayout>
+
+</LinearLayout>
