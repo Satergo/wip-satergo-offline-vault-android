@@ -20,8 +20,11 @@ dependencyResolutionManagement {
 			url 'https://oss.sonatype.org/content/repositories/snapshots/'
 			content { includeGroup 'org.scorexfoundation' }
 		}
-		mavenLocal() {
-			content { includeGroup 'com.github.weliem' }
+		maven {
+			url 'https://maven.satergo.com/releases'
+			content {
+				includeGroup 'com.satergo'
+			}
 		}
 	}
 }
