@@ -1,5 +1,7 @@
 package com.satergo.androidvault.utils;
 
+import com.satergo.androidvault.storage.Encryption;
+
 import org.ergoplatform.appkit.Mnemonic;
 import org.ergoplatform.sdk.wallet.secrets.DerivationPath;
 import org.ergoplatform.sdk.wallet.secrets.ExtendedPublicKey;
@@ -36,27 +38,32 @@ public class SeedUtils {
 		buffer.get(phraseBytes);
 		byte[] passphraseBytes = new byte[buffer.getShort() & 0xFFFF];
 		buffer.get(passphraseBytes);
-		return Mnemonic.create(new String(phraseBytes, StandardCharsets.UTF_8).toCharArray(), new String(passphraseBytes, StandardCharsets.UTF_8).toCharArray());
+		return Mnemonic.create(
+				new String(phraseBytes, StandardCharsets.UTF_8).toCharArray(),
+				new String(passphraseBytes, StandardCharsets.UTF_8).toCharArray());
 	}
 
 	public static byte[] encrypt(Mnemonic mnemonic, char[] password) throws GeneralSecurityException {
 		byte[] seedBytes = serialize(mnemonic);
-		byte[] iv = Encryption.newest().generateRandom12();
-		byte[] salt = Encryption.newest().generateRandom12();
-		byte[] encrypted = Encryption.newest().encryptData(iv, Encryption.newest().generateSecretKey(password, salt), seedBytes);
-		return Utils.concatenateByteArrays(iv, salt, encrypted);
+		byte[] salt = Encryption.secureRandom(16);
+		byte[] iv = Encryption.secureRandom(12);
+		byte[] encrypted = Utils.encryption().encryptData(iv, Utils.encryption().generateSecretKey(password, salt), seedBytes);
+		return Utils.concatenateByteArrays(salt, iv, encrypted);
 	}
 
 	public static Mnemonic decrypt(byte[] encrypted, char[] password) throws GeneralSecurityException {
 		ByteBuffer buffer = ByteBuffer.wrap(encrypted);
+		byte[] salt = new byte[16];
+		buffer.get(salt);
 		byte[] iv = new byte[12];
 		buffer.get(iv);
-		byte[] salt = new byte[12];
-		buffer.get(salt);
-		byte[] decrypted = Encryption.newest().decryptData(iv, Encryption.newest().generateSecretKey(password, salt), buffer);
+		byte[] data = new byte[buffer.remaining()];
+		buffer.get(data);
+		byte[] decrypted = Utils.encryption().decryptData(iv, Utils.encryption().generateSecretKey(password, salt), data);
 		return deserialize(decrypted);
 	}
 
+	/** @noinspection RedundantCast */
 	public static ExtendedPublicKey getParentExtPubKey(Mnemonic mnemonic) {
 		ExtendedSecretKey rootSecret = ExtendedSecretKey.deriveMasterKey(mnemonic.toSeed(), false);
 		return ((ExtendedSecretKey) rootSecret.derive(DerivationPath.fromEncoded("m/44'/429'/0'/0").get())).publicKey();

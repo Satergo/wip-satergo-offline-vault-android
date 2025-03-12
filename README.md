@@ -8,7 +8,7 @@ This way, if your computer is infected, it cannot access the seed phrase and if 
 you can notice it on the Android device. The Android device cannot alter the transaction either, as the desktop application only
 receives signatures which it attaches to the unsigned transaction.
 
-# Disclaimer
+## Disclaimer
 
 You take full responsibility for anything that happens to your coins regardless of what the cause is. If you do not accept this,
 do not use this app. By using it you accept this condition, and a message is also shown when you open the application for the first time.

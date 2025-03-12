@@ -11,26 +11,39 @@
 		android:layout_height="wrap_content"
 		/>
 
-	<Button
-		android:id="@+id/viewSeed"
-		android:layout_width="wrap_content"
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/name"
-		android:text="@string/viewSeed"/>
+		android:layout_below="@id/name">
 
-	<Button
-		android:id="@+id/delete"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/name"
-		android:layout_marginStart="4dp"
-		android:layout_toEndOf="@id/viewSeed"
-		android:text="@string/delete"/>
+		<Button
+			android:id="@+id/viewSeed"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/viewSeed"/>
 
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_toEndOf="@id/viewSeed"
-		android:text="This wallet is selected"/>
+		<Button
+			android:id="@+id/delete"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/name"
+			android:layout_marginStart="4dp"
+			android:text="@string/delete"/>
+
+		<TextView
+			android:id="@+id/selectionStatus"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="4dp"/>
+
+		<Button
+			android:id="@+id/select"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="4dp"
+			android:text="@string/select"/>
+
+	</LinearLayout>
 
 </RelativeLayout>

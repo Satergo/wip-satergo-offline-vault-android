@@ -11,9 +11,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.satergo.androidvault.R;
+import com.satergo.androidvault.ble.BLEServer;
 import com.satergo.androidvault.storage.IncorrectPasswordException;
 import com.satergo.androidvault.storage.Wallet;
 import com.satergo.androidvault.storage.WalletStorage;
@@ -22,13 +25,18 @@ import org.ergoplatform.appkit.Mnemonic;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Objects;
 
 public class WalletsRecycleAdapter extends RecyclerView.Adapter<WalletsRecycleAdapter.ViewHolder> {
 
 	private final WalletStorage walletStorage;
+	/** ID of the currently selected wallet, nullable */
+	private final MutableLiveData<Integer> selectedWallet = new MutableLiveData<>();
 
-	public WalletsRecycleAdapter(WalletStorage walletStorage) {
+	public WalletsRecycleAdapter(WalletStorage walletStorage, Integer selectedWallet) {
 		this.walletStorage = walletStorage;
+		setHasStableIds(true);
+		this.selectedWallet.setValue(selectedWallet);
 	}
 
 	@NonNull
@@ -37,9 +45,18 @@ public class WalletsRecycleAdapter extends RecyclerView.Adapter<WalletsRecycleAd
 		return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.holder_wallet, parent, false));
 	}
 
+	public LiveData<Integer> selectedWallet() {
+		return selectedWallet;
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return walletStorage.wallets().get(position).getId();
+	}
+
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-		Wallet wallet = walletStorage.wallets().get(position);
+		Wallet wallet = walletStorage.getById((int) getItemId(position));
 		((TextView) holder.itemView.findViewById(R.id.name)).setText(wallet.name);
 		((Button) holder.itemView.findViewById(R.id.viewSeed)).setOnClickListener(v -> {
 			EditText password = new EditText(holder.itemView.getContext());
@@ -76,6 +93,30 @@ public class WalletsRecycleAdapter extends RecyclerView.Adapter<WalletsRecycleAd
 					})
 					.setNegativeButton(R.string.cancel, null)
 					.show();
+		});
+		Button select = holder.itemView.findViewById(R.id.select);
+		TextView selectionStatus = holder.itemView.findViewById(R.id.selectionStatus);
+		if (Objects.equals(selectedWallet.getValue(), wallet.getId())) {
+			select.setVisibility(View.GONE);
+			selectionStatus.setVisibility(View.VISIBLE);
+			selectionStatus.setText(R.string.thisWalletIsSelected);
+		} else {
+			select.setVisibility(View.VISIBLE);
+			selectionStatus.setVisibility(View.GONE);
+		}
+		select.setOnClickListener(v -> {
+			if (BLEServer.exists()) {
+				Toast.makeText(holder.itemView.getContext(), R.string.cannotSelectWhileRunning, Toast.LENGTH_LONG).show();
+				return;
+			}
+			int prevSelPos;
+			if (selectedWallet.getValue() != null) {
+				prevSelPos = walletStorage.wallets().indexOf(walletStorage.getById(selectedWallet.getValue()));
+			} else prevSelPos = -1;
+			selectedWallet.setValue(wallet.getId());
+			notifyItemChanged(position);
+			if (prevSelPos != -1)
+				notifyItemChanged(prevSelPos);
 		});
 	}
 

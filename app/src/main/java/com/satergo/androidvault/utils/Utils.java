@@ -1,5 +1,12 @@
 package com.satergo.androidvault.utils;
 
+import androidx.lifecycle.MutableLiveData;
+
+import com.satergo.androidvault.storage.Encryption;
+import com.satergo.androidvault.storage.NewAESEncryption;
+import com.satergo.androidvault.storage.Wallet;
+
+import org.bouncycastle.crypto.params.Argon2Parameters;
 import org.ergoplatform.appkit.ColdErgoClient;
 import org.ergoplatform.appkit.ErgoClient;
 import org.ergoplatform.appkit.ErgoProver;
@@ -26,6 +33,8 @@ import sigmastate.utils.SigmaByteReader;
 import sigmastate.utils.SigmaByteWriter;
 
 public class Utils {
+
+	public static MutableLiveData<Integer> SELECTED_WALLET = new MutableLiveData<>();
 
 	public static final ErgoClient ERGO_CLIENT = new ColdErgoClient(NetworkType.MAINNET, Parameters.ColdClientMaxBlockCost, Parameters.ColdClientBlockVersion);
 
@@ -96,5 +105,13 @@ public class Utils {
 
 	public static BigDecimal toFullErg(long nanoErg) {
 		return BigDecimal.valueOf(nanoErg).movePointLeft(9);
+	}
+
+	private static final NewAESEncryption.Argon2Params ARGON2_PARAMS = new NewAESEncryption.Argon2Params(
+			Argon2Parameters.ARGON2_id, Argon2Parameters.ARGON2_VERSION_13, 19456, 2, 1);
+	private static final NewAESEncryption ENCRYPTION = new NewAESEncryption(ARGON2_PARAMS);
+
+	public static Encryption encryption() {
+		return ENCRYPTION;
 	}
 }

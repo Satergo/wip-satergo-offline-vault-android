@@ -40,4 +40,11 @@
 	<string name="passwordNeeded">Password needed</string>
 	<string name="notRunning">Not running</string>
 	<string name="acceptThenTryAgain">Accept, then try again.</string>
+	<string name="walletGenerated">Wallet generated</string>
+	<string name="walletGenerationMessage">Please write down this seed phrase and store it somewhere safe. Without this phrase, if you lose this device or forgot the password to your wallet, you cannot recover you wallet.</string>
+	<string name="iHaveSavedIt">I have saved it</string>
+	<string name="select">Select</string>
+	<string name="thisWalletIsSelected">This wallet is selected</string>
+	<string name="needToSelectAWalletFirst">You need to select a wallet first.</string>
+	<string name="cannotSelectWhileRunning">You cannot select another wallet while the connection service is running.</string>
 </resources>

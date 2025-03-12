@@ -10,10 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.satergo.androidvault.ui.MessageDialog;
 import com.satergo.androidvault.utils.SeedUtils;
 import com.satergo.androidvault.databinding.FragmentWalletsBinding;
 import com.satergo.androidvault.storage.Wallet;
 import com.satergo.androidvault.storage.WalletStorage;
+import com.satergo.androidvault.utils.Utils;
 
 import org.ergoplatform.appkit.Mnemonic;
 
@@ -31,7 +33,11 @@ public class WalletsFragment extends Fragment {
 		View root = binding.getRoot();
 
 		binding.wallets.setLayoutManager(new LinearLayoutManager(getContext()));
-		binding.wallets.setAdapter(new WalletsRecycleAdapter(WalletStorage.INSTANCE));
+		WalletsRecycleAdapter adapter = new WalletsRecycleAdapter(WalletStorage.INSTANCE, Utils.SELECTED_WALLET.getValue());
+		binding.wallets.setAdapter(adapter);
+		adapter.selectedWallet().observe(getViewLifecycleOwner(), id -> {
+			Utils.SELECTED_WALLET.setValue(id);
+		});
 
 		getParentFragmentManager().setFragmentResultListener(CreateWalletDialog.REQUEST_KEY, this, (requestKey, result) -> {
 			String name = result.getString("name"), password = result.getString("password");
@@ -40,6 +46,7 @@ public class WalletsFragment extends Fragment {
 			try {
 				Wallet wallet = new Wallet(null, name, SeedUtils.getParentExtPubKey(mnemonic), SeedUtils.encrypt(mnemonic, password.toCharArray()));
 				WalletStorage.INSTANCE.add(getContext(), wallet);
+				WalletGeneratedDialog.newInstance(new String(phrase)).show(getParentFragmentManager(), "walletGenerated");
 				Toast.makeText(getContext(), "Wallet generated. Please view the seed phrase and write it down.", Toast.LENGTH_LONG).show();
 				binding.wallets.getAdapter().notifyDataSetChanged();
 			} catch (IOException | GeneralSecurityException e) {

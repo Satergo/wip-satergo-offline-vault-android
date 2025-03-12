@@ -29,12 +29,9 @@ public final class Wallet {
 
 	public Wallet(Integer id, String name, ExtendedPublicKey parentExtPubKey, byte[] encryptedSeed) {
 		this.id = id;
-		Objects.requireNonNull(name);
-		Objects.requireNonNull(parentExtPubKey);
-		Objects.requireNonNull(encryptedSeed);
-		this.name = name;
-		this.parentExtPubKey = parentExtPubKey;
-		this.encryptedSeed = encryptedSeed;
+		this.name = Objects.requireNonNull(name);
+		this.parentExtPubKey = Objects.requireNonNull(parentExtPubKey);
+		this.encryptedSeed = Objects.requireNonNull(encryptedSeed);
 	}
 
 	public boolean hasId() { return id != null; }

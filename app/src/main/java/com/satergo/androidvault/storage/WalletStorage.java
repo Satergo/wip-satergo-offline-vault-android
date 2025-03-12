@@ -3,6 +3,7 @@ package com.satergo.androidvault.storage;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
+import androidx.preference.PreferenceManager;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,6 +19,8 @@ import java.util.List;
 
 public class WalletStorage {
 
+	private static final long VERSION = 0;
+
 	public static WalletStorage INSTANCE;
 
 	private static final String FILE_NAME = "wallets.dat";
@@ -27,6 +30,7 @@ public class WalletStorage {
 		if (INSTANCE != null) throw new IllegalStateException();
 		this.wallets = new ArrayList<>();
 		readIfExists(context);
+		PreferenceManager.getDefaultSharedPreferences(context).edit().putLong("walletStorageVersion", VERSION).apply();
 	}
 
 	private synchronized void readIfExists(Context context) throws IOException {
@@ -48,7 +52,7 @@ public class WalletStorage {
 	public synchronized void store(Context context) throws IOException {
 		try (ByteArrayOutputStream b = new ByteArrayOutputStream();
 			 DataOutputStream out = new DataOutputStream(b)) {
-			out.writeLong(0);
+			out.writeLong(VERSION);
 			out.writeInt(wallets.size());
 			for (Wallet wallet : wallets) {
 				byte[] bytes = wallet.serialize();

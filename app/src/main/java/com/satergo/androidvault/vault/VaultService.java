@@ -87,6 +87,8 @@ public class VaultService implements BLEService {
 				dataOut.writeInt(PROTOCOL_VERSION);
 				dataOut.writeInt(BuildConfig.VERSION_CODE);
 				dataOut.writeUTF(BuildConfig.VERSION_NAME);
+				dataOut.writeUTF(BuildConfig.APPLICATION_ID);
+				dataOut.writeUTF("");
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}

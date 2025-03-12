@@ -34,6 +34,7 @@ import com.satergo.androidvault.vault.SignJob;
 import com.satergo.androidvault.vault.VaultWorker;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class ConnectionFragment extends Fragment {
@@ -97,6 +98,12 @@ public class ConnectionFragment extends Fragment {
 				return;
 			}
 
+			Integer selected = Utils.SELECTED_WALLET.getValue();
+			if (selected == null) {
+				Snackbar.make(v, R.string.needToSelectAWalletFirst, Snackbar.LENGTH_LONG).show();
+				return;
+			}
+
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 				boolean connPerm = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED;
 				boolean advPerm = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.BLUETOOTH_ADVERTISE) == PackageManager.PERMISSION_GRANTED;
@@ -143,8 +150,9 @@ public class ConnectionFragment extends Fragment {
 
 	@SuppressLint("MissingPermission")
 	private void launchServer() {
+		Objects.requireNonNull(Utils.SELECTED_WALLET.getValue());
 		if (!BLEServer.exists()) {
-			Wallet wallet = WalletStorage.INSTANCE.wallets().get(0);
+			Wallet wallet = WalletStorage.INSTANCE.getById(Utils.SELECTED_WALLET.getValue());
 			BLEServer bleServer = BLEServer.getOrCreate(getContext(), new VaultService(new VaultWorker() {
 				@Override
 				@SuppressLint("NewApi")
